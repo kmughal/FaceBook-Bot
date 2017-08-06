@@ -63,7 +63,7 @@ function processMessage(event) {
         let text = message.text;
         text = "Bot says thanks " + new Date() + " your message was : " + text;
         //sendMessage(senderId,text);
-        getUserProfile(senderId);
+        getUserProfile(senderId,text);
         //transmitMessage(senderId,recipientId,text);
        // sendTextMessage(senderId,text);
     }
@@ -173,6 +173,7 @@ function getUserProfile(senderId){
        console.log('error:' , error);
        var bodyObj = JSON.parse(body);
        console.log('bodyObj:' , bodyObj);
+       sendMessage(senderId,'hello from me');
     });
 }
 
