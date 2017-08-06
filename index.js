@@ -17,6 +17,7 @@ app.get("/",(req,res)=> {
 // Used for verification
 app.get("/webhook", 
 (req,res) => {
+    console.log("webhook call .... " , req.query);
    if (req.query["hub.verify_token"] === "this_is_my_token") {
     console.log("Verified webhook");
     res.status(200).send(req.query["hub.challenge"]);
