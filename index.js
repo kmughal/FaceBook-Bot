@@ -57,7 +57,7 @@ app.post("/webhook", function (req, res) {
   }
 });
 
-const gotPostBack = function(event){
+function gotPostBack(event){
    var senderId = event.sender.id;
   var recipientId = event.recipient.id;
       sendSimpleTextMessage(senderId,"pay load message receive");
