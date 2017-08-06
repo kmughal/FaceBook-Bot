@@ -7,10 +7,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.get("/",(req,res)=> {
-    console.log("url : " , req.url)
-    console.log("webhook call .... " , req.query);
-    console.log("Verification token : " , process.env.VERIFICATION_TOKEN);
-    res.send('hello world');
+    if (req.query["hub.verify_token"] === "this_is_my_token") {
+    console.log("Verified webhook");
+    res.status(200).send(req.query["hub.challenge"]);
+  } else {
+    res.send("hello world" +  new Date());
+  } 
     
 });
 
