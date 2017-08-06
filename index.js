@@ -51,6 +51,12 @@ app.post("/webhook", function (req, res) {
   }
 });
 
+const gotPostBack = function(event){
+   var senderId = event.sender.id;
+  var recipientId = event.recipient.id;
+      sendSimpleTextMessage(senderId,"pay load message receive");
+}
+
 function processMessage(event) {
   var senderId = event.sender.id;
   var recipientId = event.recipient.id;
@@ -62,7 +68,11 @@ function processMessage(event) {
   console.log("timeofmessage:", timeOfMessage);
   console.log("message:", JSON.stringify(message))
   console.log("text:", message.text)
-  if (message.text) {
+  
+  if (event.postback){
+    getPostBack(event);
+  }
+  else {
    switch(message.text) {
      case 'generic' :
      sendGenericMessage(senderId);
@@ -90,8 +100,8 @@ function sendGenericMessage(recipientId) {
           elements: [{
             title: "Bus arrival time",
             subtitle: "You can know the bus arrival time",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
+            item_url: "http://www.freeimageslive.com",               
+            image_url: "http://www.freeimageslive.com/galleries/workplace/education/pics/aeiou.jpg",
             buttons: [{
               type: "web_url",
               url: "https://www.oculus.com/en-us/rift/",
