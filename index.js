@@ -18,7 +18,6 @@ app.get("/",(req,res)=> {
 // Used for verification
 app.get("/webhook", 
 (req,res) => {
-    console.log("webhook call .... " , req.query);
    if (req.query["hub.verify_token"] === "this_is_my_token") {
     console.log("Verified webhook");
     res.status(200).send(req.query["hub.challenge"]);
@@ -32,7 +31,7 @@ app.get("/webhook",
 
 // All callbacks for Messenger will be POST-ed here
 app.post("/webhook", function (req, res) {
-    console.log("request : " ,req.body);
+  
   // Make sure this is a page subscription
   if (req.body.object == "page") {
     // Iterate over each entry
@@ -41,18 +40,25 @@ app.post("/webhook", function (req, res) {
       // Iterate over each messaging event
       
       entry.messaging.forEach(function(event) {
-          console.log(event);
-          //console.log("postback" ,event.postback)
-        if (event.postback) 
-            {
-          processPostback(event);
-        }
+          processMessage(event);
       });
     });
 
     res.sendStatus(200);
   }
 });
+
+function processMessage(event) {
+    var id = event.sender.id;
+    var recipientId = event.recipient.id;
+    var timeOfMessage = event.timestamp;
+    var message = event.message;
+    
+    console.log("id :" , id);
+    console.log("recipientid:" , recipientId);
+    console.log("timeofmessage:" , timeOfMessage);
+    console.log("message:" ,JSON.stringify(message))
+}
 
 function processPostback(event) {
  console.log("event : " , event);
