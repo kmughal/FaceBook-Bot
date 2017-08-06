@@ -10,13 +10,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.get("/",(req,res)=> {
-    if (req.query["hub.verify_token"] === "this_is_my_token") {
-    console.log("Verified webhook");
-    res.status(200).send(req.query["hub.challenge"]);
-  } else {
-    res.send("hello world" +  new Date());
-  } 
-    
+    res.send("this is a test page only!");
 });
 
 
@@ -37,9 +31,8 @@ app.get("/webhook",
 
 
 // All callbacks for Messenger will be POST-ed here
-app.post("/", function (req, res) {
+app.post("/webhook", function (req, res) {
     console.log("request : " ,req.body);
-    return;
   // Make sure this is a page subscription
   if (req.body.object == "page") {
     // Iterate over each entry
@@ -50,7 +43,7 @@ app.post("/", function (req, res) {
       entry.messaging.forEach(function(event) {
           console.log(event);
           //console.log("postback" ,event.postback)
-        //if (event.postback) 
+        if (event.postback) 
             {
           processPostback(event);
         }
@@ -64,9 +57,9 @@ app.post("/", function (req, res) {
 function processPostback(event) {
  console.log("event : " , event);
   var senderId = event.sender.id;
-  var payload = 'great';// event.postback.payload || 'great';
+  var payload = event.postback.payload || 'great';
 
-  //if (payload === "Greeting") 
+  if (payload === "Greeting") 
     {
     // Get user's first name from the User Profile API
     // and include it in the greeting
