@@ -54,6 +54,7 @@ app.post("/", function (req, res) {
 });
 
 function processPostback(event) {
+ console.log("event : " , event);
   var senderId = event.sender.id;
   var payload = event.postback.payload;
 
