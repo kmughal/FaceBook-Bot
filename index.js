@@ -63,16 +63,69 @@ function processMessage(event) {
   console.log("message:", JSON.stringify(message))
   console.log("text:", message.text)
   if (message.text) {
-    let text = message.text;
-    text = " Bot says thanks " + new Date() + " your message was : " + text;
-    sendMessage(senderId, text);
+   switch(message.text) {
+     case 'generic' :
+     sendGenericMessage(senderId);
+     
+     break;
+     default :
+       sendSimpleTextMessage(senderId, " Bot says thanks " + new Date() + " your message was : " + message.text);
 
+   }
   }
 }
 
+// Send templated message
 
-// sends message to user
-function sendMessage(recipientId, message) {
+function sendGenericMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+            title: "Bus arrival time",
+            subtitle: "You can know the bus arrival time",
+            item_url: "https://www.oculus.com/en-us/rift/",               
+            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/rift/",
+              title: "Open Web URL"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "get_bus_detail",
+            }],
+          }, {
+            title: "touch",
+            subtitle: "Your Hands, Now in VR",
+            item_url: "https://www.oculus.com/en-us/touch/",               
+            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/touch/",
+              title: "Open Web URL"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for second bubble",
+            }]
+          }]
+        }
+      }
+    }
+  };  
+
+  callApi(messageData);
+}
+
+// Send normal text message.
+function sendSimpleTextMessage(recipientId, message) {
 
   var profilePromise = getUserProfile(recipientId).then((fn) => {
 
@@ -87,7 +140,12 @@ function sendMessage(recipientId, message) {
       text: message
     }
   };
-    request({
+   callApi(messageData);
+  });
+}
+
+function callApi(messageData){
+   request({
       url: "https://graph.facebook.com/v2.6/me/messages",
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN
@@ -107,9 +165,7 @@ function sendMessage(recipientId, message) {
         console.error(error);
       }
     });
-  });
 }
-
 
 function getUserProfile(senderId) {
   var deferred = Q.defer();
