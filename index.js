@@ -62,7 +62,8 @@ function processMessage(event) {
     if(message.text) {
         let text = message.text;
         text = "Bot says thanks " + new Date() + " your message was : " + text;
-        sendMessage(senderId,text);
+        //sendMessage(senderId,text);
+        getUserProfile(senderId);
         //transmitMessage(senderId,recipientId,text);
        // sendTextMessage(senderId,text);
     }
@@ -158,6 +159,22 @@ function callSendAPI(messageData) {
 //     });
 //   }
 // }
+
+
+function getUserProfile(senderId){
+      request({
+      url: "https://graph.facebook.com/v2.6/" + senderId,
+      qs: {
+        access_token: process.env.PAGE_ACCESS_TOKEN,
+        fields: "first_name"
+      },
+      method: "GET"
+    }, function(error, response, body) {
+       console.log('error:' , error);
+       var bodyObj = JSON.parse(body);
+       console.log('bodyObj:' , bodyObj);
+    });
+}
 
 // sends message to user
 function sendMessage(recipientId, message) {
