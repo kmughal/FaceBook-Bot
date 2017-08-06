@@ -7,7 +7,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.get("/",(req,res)=> {
+    console.log("Verification token : " , process.env.VERIFICATION_TOKEN);
     res.send('hello world');
+    
 });
 
 
