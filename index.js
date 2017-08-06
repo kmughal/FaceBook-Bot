@@ -63,12 +63,10 @@ function processMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.log("senderId :", senderId);
-  console.log("recipientid:", recipientId);
-  console.log("timeofmessage:", timeOfMessage);
-  console.log("message:", JSON.stringify(message))
-  console.log("text:", message.text)
+  console.log("senderId :", senderId ,",recipientid:", recipientId,",timeofmessage:", timeOfMessage,",message:", JSON.stringify(message),",text:", message.text)
   console.log("isPostBack:" , event.postback);
+  
+  
   if (event.postback){
     getPostBack(event);
   }
@@ -111,20 +109,6 @@ function sendGenericMessage(recipientId) {
               title: "Call Postback",
               payload: "get_bus_detail",
             }],
-          }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
           }]
         }
       }
