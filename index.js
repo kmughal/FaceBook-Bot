@@ -63,34 +63,69 @@ function processMessage(event) {
         let text = message.text;
         text = "Bot says thanks " + new Date() + " your message was : " + text;
         //transmitMessage(senderId,recipientId,text);
-         sendMessage(recipientId, {text: text});
+        sendTextMessage(senderId,text);
     }
 }
 
+function sendTextMessage(recipientId, messageText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText
+    }
+  };
 
-
-function transmitMessage(senderId,recipientId,text){
-      request({
-      url: "https://graph.facebook.com/v2.6/" + senderId,
-      qs: {
-        access_token: process.env.PAGE_ACCESS_TOKEN,
-        fields: "first_name"
-      },
-      method: "GET"
-    }, function(error, response, body) {
-        
-      var greeting = "";
-      if (error) {
-        console.log("Error getting user's name: " +  error);
-      } else {
-        var bodyObj = JSON.parse(body);
-        name = bodyObj.first_name;
-        greeting = "Hi " + name + ". ";
-      }
-      var message = greeting + text;
-      sendMessage(senderId, {text: message});
-    });
+  callSendAPI(messageData);
 }
+
+
+function callSendAPI(messageData) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token: PAGE_ACCESS_TOKEN },
+    method: 'POST',
+    json: messageData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+
+      console.log("Successfully sent generic message with id %s to recipient %s", 
+        messageId, recipientId);
+    } else {
+      console.error("Unable to send message.");
+      console.error(response);
+      console.error(error);
+    }
+  });  
+}
+
+
+// function transmitMessage(senderId,recipientId,text){
+//       request({
+//       url: "https://graph.facebook.com/v2.6/" + senderId,
+//       qs: {
+//         access_token: process.env.PAGE_ACCESS_TOKEN,
+//         fields: "first_name"
+//       },
+//       method: "GET"
+//     }, function(error, response, body) {
+        
+//       var greeting = "";
+//       if (error) {
+//         console.log("Error getting user's name: " +  error);
+//       } else {
+//         var bodyObj = JSON.parse(body);
+//         name = bodyObj.first_name;
+//         greeting = "Hi " + name + ". ";
+//       }
+//       var message = greeting + text;
+//       sendMessage(senderId, {text: message});
+//     });
+// }
 
 // function processPostback(event) {
 //  console.log("event : " , event);
@@ -124,20 +159,20 @@ function transmitMessage(senderId,recipientId,text){
 // }
 
 // sends message to user
-function sendMessage(recipientId, message) {
-  request({
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-    method: "POST",
-    json: {
-      recipient: {id: recipientId},
-      message: message,
-    }
-  }, function(error, response, body) {
-    if (error) {
-      console.log("Error sending message: " + response.error);
-    }
-  });
-}
+// function sendMessage(recipientId, message) {
+//   request({
+//     url: "https://graph.facebook.com/v2.6/me/messages",
+//     qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+//     method: "POST",
+//     json: {
+//       recipient: {id: recipientId},
+//       message: message,
+//     }
+//   }, function(error, response, body) {
+//     if (error) {
+//       console.log("Error sending message: " + response.error);
+//     }
+//   });
+// }
 
 app.listen(port);
