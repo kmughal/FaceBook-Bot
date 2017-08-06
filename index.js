@@ -46,7 +46,7 @@ app.post("/", function (req, res) {
       entry.messaging.forEach(function(event) {
           console.log(event);
           console.log("postback" ,event.postback)
-        if (event.postback) 
+        //if (event.postback) 
             {
           processPostback(event);
         }
@@ -62,7 +62,8 @@ function processPostback(event) {
   var senderId = event.sender.id;
   var payload = event.postback.payload;
 
-  if (payload === "Greeting") {
+  //if (payload === "Greeting") 
+    {
     // Get user's first name from the User Profile API
     // and include it in the greeting
     request({
