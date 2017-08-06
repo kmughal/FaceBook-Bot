@@ -171,7 +171,7 @@ function sendMessage(recipientId, message) {
       message: message,
     }
   }, function(error, response, body) {
-    
+    console.log("hello")
     if (error) {
       console.log("Error sending message: " + response.error);
     }
