@@ -64,7 +64,7 @@ function processMessage(event) {
   var message = event.message;
   if(!message)
     return;
-  console.log("message : %s",message);
+  console.log("message : ",message);
   
   if (event.postback){
     getPostBack(event);
