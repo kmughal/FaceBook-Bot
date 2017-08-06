@@ -58,6 +58,16 @@ function processMessage(event) {
     console.log("recipientid:" , recipientId);
     console.log("timeofmessage:" , timeOfMessage);
     console.log("message:" ,JSON.stringify(message))
+    
+    if(message.text) {
+        sendTextReply(recipientId,message);
+    }
+}
+
+function sendTextReply(recipientId,message) {
+    let text = message.text;
+    text = "Bot says thanks " + new Date() + " your message was : " + text;
+    sendMessage(recipientId,text);
 }
 
 function processPostback(event) {
