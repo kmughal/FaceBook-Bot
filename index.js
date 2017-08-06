@@ -42,6 +42,8 @@ app.post("/", function (req, res) {
     // There may be multiple entries if batched
     req.body.entry.forEach(function(entry) {
       // Iterate over each messaging event
+      console.log(event);
+      console.log(event.messaging);
       entry.messaging.forEach(function(event) {
         if (event.postback) {
           processPostback(event);
