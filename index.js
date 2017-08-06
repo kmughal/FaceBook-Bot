@@ -100,7 +100,7 @@ function sendMessage(recipientId, message) {
           messageId, recipientId);
       } else {
         console.error("Unable to send message.");
-        //console.error(response);
+        console.error(response.body.message);
         console.error(error);
       }
     });
