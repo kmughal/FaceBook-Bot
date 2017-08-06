@@ -62,7 +62,8 @@ function processMessage(event) {
     if(message.text) {
         let text = message.text;
         text = "Bot says thanks " + new Date() + " your message was : " + text;
-        transmitMessage(senderId,recipientId,text);
+        //transmitMessage(senderId,recipientId,text);
+         sendMessage(senderId, {text: text});
     }
 }
 
@@ -77,6 +78,7 @@ function transmitMessage(senderId,recipientId,text){
       },
       method: "GET"
     }, function(error, response, body) {
+        
       var greeting = "";
       if (error) {
         console.log("Error getting user's name: " +  error);
