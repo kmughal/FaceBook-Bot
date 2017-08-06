@@ -42,9 +42,9 @@ app.post("/", function (req, res) {
     // There may be multiple entries if batched
     req.body.entry.forEach(function(entry) {
       // Iterate over each messaging event
-      console.log(entry);
-      console.log(entry.messaging);
+      
       entry.messaging.forEach(function(event) {
+          console.log(event);
         if (event.postback) {
           processPostback(event);
         }
