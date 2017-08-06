@@ -45,7 +45,8 @@ app.post("/", function (req, res) {
       
       entry.messaging.forEach(function(event) {
           console.log(event);
-       // if (event.postback) 
+          console.log("postback" ,event.postback)
+        if (event.postback) 
             {
           processPostback(event);
         }
