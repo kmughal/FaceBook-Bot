@@ -79,18 +79,21 @@ function sendMessage(recipientId, message) {
     message = 'Hi ' + fn + message;
     console.log("sending message", message)
 
+    var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: message
+    }
+  };
     request({
       url: "https://graph.facebook.com/v2.6/me/messages",
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN
       },
       method: "POST",
-      json: {
-        recipient: {
-          id: recipientId
-        },
-        message: message
-      }
+      json: messageData
     }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var recipientId = body.recipient_id;
