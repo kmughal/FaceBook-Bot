@@ -64,7 +64,7 @@ function processMessage(event) {
   console.log("text:", message.text)
   if (message.text) {
     let text = message.text;
-    text = "Bot says thanks " + new Date() + " your message was : " + text;
+    text = " Bot says thanks " + new Date() + " your message was : " + text;
     sendMessage(senderId, text);
 
   }
