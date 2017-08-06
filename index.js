@@ -63,7 +63,7 @@ function processMessage(event) {
         let text = message.text;
         text = "Bot says thanks " + new Date() + " your message was : " + text;
         //transmitMessage(senderId,recipientId,text);
-         sendMessage(senderId, {text: text});
+         sendMessage(recipientId, {text: text});
     }
 }
 
