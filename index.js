@@ -45,7 +45,7 @@ app.post("/", function (req, res) {
       
       entry.messaging.forEach(function(event) {
           console.log(event);
-          console.log("postback" ,event.postback)
+          //console.log("postback" ,event.postback)
         //if (event.postback) 
             {
           processPostback(event);
@@ -60,7 +60,7 @@ app.post("/", function (req, res) {
 function processPostback(event) {
  console.log("event : " , event);
   var senderId = event.sender.id;
-  var payload = event.postback.payload || 'great';
+  var payload = 'great';// event.postback.payload || 'great';
 
   //if (payload === "Greeting") 
     {
