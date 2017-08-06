@@ -68,7 +68,7 @@ function processMessage(event) {
   console.log("timeofmessage:", timeOfMessage);
   console.log("message:", JSON.stringify(message))
   console.log("text:", message.text)
-  
+  console.log("isPostBack:" , event.postback);
   if (event.postback){
     getPostBack(event);
   }
