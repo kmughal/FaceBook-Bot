@@ -49,37 +49,27 @@ app.post("/webhook", function (req, res) {
 });
 
 function processMessage(event) {
-    var id = event.sender.id;
+    var senderId = event.sender.id;
     var recipientId = event.recipient.id;
     var timeOfMessage = event.timestamp;
     var message = event.message;
     
-    console.log("id :" , id);
+    console.log("senderId :" , senderId);
     console.log("recipientid:" , recipientId);
     console.log("timeofmessage:" , timeOfMessage);
     console.log("message:" ,JSON.stringify(message))
     
     if(message.text) {
-        sendTextReply(recipientId,message);
+        let text = message.text;
+        text = "Bot says thanks " + new Date() + " your message was : " + text;
+        transmitMessage(senderId,recipientId,text);
     }
 }
 
-function sendTextReply(recipientId,message) {
-    let text = message.text;
-    text = "Bot says thanks " + new Date() + " your message was : " + text;
-    sendMessage(recipientId,text);
-}
 
-function processPostback(event) {
- console.log("event : " , event);
-  var senderId = event.sender.id;
-  var payload = event.postback.payload || 'great';
 
-  if (payload === "Greeting") 
-    {
-    // Get user's first name from the User Profile API
-    // and include it in the greeting
-    request({
+function transmitMessage(senderId,recipientId,text){
+      request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
@@ -95,11 +85,41 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "My name is SP Movie Bot. I can tell you various details regarding movies. What movie would you like to know about?";
+      var message = greeting + text;
       sendMessage(senderId, {text: message});
     });
-  }
 }
+
+// function processPostback(event) {
+//  console.log("event : " , event);
+//   var senderId = event.sender.id;
+//   var payload = event.postback.payload || 'great';
+
+//   if (payload === "Greeting") 
+//     {
+//     // Get user's first name from the User Profile API
+//     // and include it in the greeting
+//     request({
+//       url: "https://graph.facebook.com/v2.6/" + senderId,
+//       qs: {
+//         access_token: process.env.PAGE_ACCESS_TOKEN,
+//         fields: "first_name"
+//       },
+//       method: "GET"
+//     }, function(error, response, body) {
+//       var greeting = "";
+//       if (error) {
+//         console.log("Error getting user's name: " +  error);
+//       } else {
+//         var bodyObj = JSON.parse(body);
+//         name = bodyObj.first_name;
+//         greeting = "Hi " + name + ". ";
+//       }
+//       var message = greeting + "My name is SP Movie Bot. I can tell you various details regarding movies. What movie would you like to know about?";
+//       sendMessage(senderId, {text: message});
+//     });
+//   }
+// }
 
 // sends message to user
 function sendMessage(recipientId, message) {
