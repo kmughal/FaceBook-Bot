@@ -105,8 +105,8 @@ function sendGenericMessage(recipientId) {
               title: "Open Web URL"
             }, {
               type: "postback",
-              title: "Call Postback",
-              payload: "get_bus_detail",
+              title: "Test Post Back",
+              payload: "get_bus_detail"
             }],
           }]
         }
