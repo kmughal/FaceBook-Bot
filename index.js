@@ -43,6 +43,7 @@ app.post("/webhook", function (req, res) {
       // Iterate over each messaging event
 
       entry.messaging.forEach(function (event) {
+        console.log("ispostback:",event.postback)
         if (event.postback) {
            getPostBack(event);
         } else {
@@ -69,7 +70,7 @@ function processMessage(event) {
   
   if(!message)
     return;
-  console.log("message : ",message);
+ //console.log("message : ",message);
   
   if (event.postback){
     getPostBack(event);
@@ -155,12 +156,12 @@ function callApi(messageData){
         var recipientId = body.recipient_id;
         var messageId = body.message_id;
 
-        console.log("Successfully sent generic message with id %s to recipient %s",
-          messageId, recipientId);
+       // console.log("Successfully sent generic message with id %s to recipient %s",
+        //  messageId, recipientId);
       } else {
         console.error("Unable to send message.");
-        console.error(response.body.message);
-        console.error(error);
+       // console.error(response.body.message);
+       // console.error(error);
       }
     });
 }
