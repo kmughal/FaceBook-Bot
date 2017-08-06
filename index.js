@@ -62,11 +62,7 @@ function processMessage(event) {
   var recipientId = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-
-  console.log("senderId :", senderId ,",recipientid:", recipientId,",timeofmessage:", timeOfMessage,",message:", JSON.stringify(message),",text:", message.text)
-  console.log("isPostBack:" , event.postback);
-  
-  
+  console.log("message : %s",message);
   if (event.postback){
     getPostBack(event);
   }
