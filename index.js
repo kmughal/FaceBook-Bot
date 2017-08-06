@@ -43,7 +43,11 @@ app.post("/webhook", function (req, res) {
       // Iterate over each messaging event
 
       entry.messaging.forEach(function (event) {
+        if (event.postback) {
+           getPostBack(event);
+        } else {
         processMessage(event);
+        }
       });
     });
 
@@ -62,6 +66,7 @@ function processMessage(event) {
   var recipientId = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
+  
   if(!message)
     return;
   console.log("message : ",message);
