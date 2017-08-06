@@ -58,7 +58,7 @@ function processMessage(event) {
     console.log("recipientid:" , recipientId);
     console.log("timeofmessage:" , timeOfMessage);
     console.log("message:" ,JSON.stringify(message))
-    
+    console.log("text:" , message.text)
     if(message.text) {
         let text = message.text;
         text = "Bot says thanks " + new Date() + " your message was : " + text;
