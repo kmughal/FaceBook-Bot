@@ -1,24 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-
-
-const port = process.env.PORT || 3000;
 const Q = require('q');
 
 const app = express();
+const port = process.env.PORT || 3000;
+
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
 app.use(bodyParser.json());
 
+
 app.get("/", (req, res) => {
-  res.send("this is a test page only!");
+  res.send("Hello World !");
 });
 
-
-// Facebook Webhook
-// Used for verification
 app.get("/webhook",
   (req, res) => {
     if (req.query["hub.verify_token"] === "this_is_my_token") {
@@ -32,16 +30,11 @@ app.get("/webhook",
 
 
 
-// All callbacks for Messenger will be POST-ed here
+
 app.post("/webhook", function (req, res) {
-
-  // Make sure this is a page subscription
   if (req.body.object == "page") {
-    // Iterate over each entry
-    // There may be multiple entries if batched
+    
     req.body.entry.forEach(function (entry) {
-      // Iterate over each messaging event
-
       entry.messaging.forEach(function (event) {
         
         if (event.postback) {
@@ -70,7 +63,6 @@ function processMessage(event) {
   
   if(!message)
     return;
- //console.log("message : ",message);
   
   if (event.postback){
     getPostBack(event);
@@ -88,7 +80,6 @@ function processMessage(event) {
   }
 }
 
-// Send templated message
 
 function sendGenericMessage(recipientId) {
   var messageData = {
@@ -155,13 +146,8 @@ function callApi(messageData){
       if (!error && response.statusCode == 200) {
         var recipientId = body.recipient_id;
         var messageId = body.message_id;
-
-       // console.log("Successfully sent generic message with id %s to recipient %s",
-        //  messageId, recipientId);
       } else {
         console.error("Unable to send message.");
-       // console.error(response.body.message);
-       // console.error(error);
       }
     });
 }
@@ -176,7 +162,7 @@ function getUserProfile(senderId) {
       fields: "first_name"
     },
     method: "GET"
-  }, function (error, response, body) {
+  },  (error, response, body) => {
     console.log('error:', error);
     var bodyObj = JSON.parse(body);
     deferred.resolve(bodyObj.first_name);
