@@ -6,6 +6,12 @@ const Q = require('q');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const fb = require('./src/fb.src').FaceBook
+
+var f = new fb();
+
+f.sendTextMessage();
+
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -27,9 +33,6 @@ app.get("/webhook",
       res.sendStatus(403);
     }
   });
-
-
-
 
 app.post("/webhook", function (req, res) {
   if (req.body.object == "page") {
